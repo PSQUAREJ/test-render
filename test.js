@@ -3,7 +3,9 @@ const app = express();
 const port = 4200;
 
 app.get('/',(req,res)=>{
-	res.send('hello balls!');
+	path1 = __dirname + '/test.html';
+	console.log(path1);
+	res.sendFile(path1);
 })
 
 app.listen(port,()=>{

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Balls</title>
+</head>
+<body>
+	<p>Hello balls</p>
+	<p>Hello balls (again!)</p>
+
+	<!-- Firebase SDK -->
+	<script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXYVhVnR_eGWTdmHT3KP6IILnmqxhJxVg", 
+      authDomain: "balls-testing.firebaseapp.com",
+      projectId: "balls-testing",
+      storageBucket: "balls-testing.appspot.com",
+      messagingSenderId: "505212479562",
+      appId: "1:505212479562:web:ea68a21249ca2cca4b5eb3"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Sign-in function
+    window.signInWithGoogle = function() {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result;
+          console.log('User signed in:', user);
+        })
+        .catch((error) => {
+          console.error('Error during sign-in:', error);
+        });
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        displayUserInfo(user);
+      } else {
+        // User is signed out
+        document.getElementById("status").textContent = "You are not signed in.";
+        //document.getElementById("signOutBtn").style.display = "none";
+      }
+    });
+
+    function displayUserInfo(user) {
+      document.getElementById("status").textContent = `Hello, ${user.displayName}!`;
+      //document.getElementById("signOutBtn").style.display = "inline";
+    }
+  </script>
+
+	<!-- Button for signing in -->
+	<p id="status">You are not signed in.</p>
+	<button onclick="signInWithGoogle()">Sign in with Google</button>
+</body>
+</html>
